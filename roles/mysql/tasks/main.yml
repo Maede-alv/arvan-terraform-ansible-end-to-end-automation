@@ -1,0 +1,20 @@
+---
+- name: Install MariaDB
+  apt:
+    name: mariadb-server
+    state: present
+
+- name: Ensure MariaDB is running
+  service:
+    name: mariadb
+    state: started
+    enabled: yes
+  notify: Restart MySQL
+
+- name: Set root password
+  mysql_user:
+    name: root
+    password: "mypass"
+    check_implicit_admin: yes
+    login_unix_socket: /var/run/mysqld/mysqld.sock
+  no_log: true
